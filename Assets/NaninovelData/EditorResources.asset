@@ -166,3 +166,57 @@ MonoBehaviour:
     - name: ToastUI
       pathPrefix: UI
       guid: dd85ce99288c2f8488447fa511b1c0d6
+  - Id: Scripts
+    Resources:
+    - name: NewScript
+      pathPrefix: Scripts
+      guid: 5b41679334049b84eaa8db357a9e3449
+  - Id: CharacterAvatars
+    Resources:
+    - name: Character_1
+      pathPrefix: CharacterAvatars
+      guid: 386bd16e8c285af4d9f77d15d65919fe
+    - name: Character_2
+      pathPrefix: CharacterAvatars
+      guid: 7aa229edcdfcb154ba7c9abf1f59f886
+    - name: Character_3
+      pathPrefix: CharacterAvatars
+      guid: a14f7ca5c0dae9e4b9467872b4d17533
+  - Id: Audio
+    Resources:
+    - name: Background-music
+      pathPrefix: Audio
+      guid: aef6f471343375044be242eb715a9e6d
+  - Id: Backgrounds/59b698a4-71c1-475f-b19d-d9bb13977c79
+    Resources:
+    - name: alley-10
+      pathPrefix: Backgrounds/Location 1
+      guid: f44efdb5dd89b494bbe40b1a58e845ac
+  - Id: Backgrounds/c795a158-b7b6-4d04-8d39-ceb1d09f22b8
+    Resources: []
+  - Id: Movies
+    Resources: []
+  - Id: Unlockables
+    Resources: []
+  - Id: Backgrounds/74c41967-6387-4da3-907d-42778381968a
+    Resources:
+    - name: Location-1
+      pathPrefix: Backgrounds/MainBackground
+      guid: f44efdb5dd89b494bbe40b1a58e845ac
+    - name: Location-2
+      pathPrefix: Backgrounds/MainBackground
+      guid: 235968a685dbdee488fc4b19cf557432
+    - name: Location-1
+      pathPrefix: Backgrounds/MainBackground
+      guid: a220a565cfbd3bc4cb83895e277d32be
+  - Id: Characters/caccc17e-663b-4fe1-840a-3853866e9072
+    Resources:
+    - name: Character-1
+      pathPrefix: Characters/Character
+      guid: 386bd16e8c285af4d9f77d15d65919fe
+    - name: Character-2
+      pathPrefix: Characters/Character
+      guid: 7aa229edcdfcb154ba7c9abf1f59f886
+    - name: Character-3
+      pathPrefix: Characters/Character
+      guid: a14f7ca5c0dae9e4b9467872b4d17533
