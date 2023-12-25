@@ -1,5 +1,5 @@
+@bgm Background-music volume:0.1 loop:true fade:1
 @back Location-1
-@bgm Background-music volume:0.1 loop:true fade:4
 @char Character.Character-1 tint:#E5BFFF
 Character.Character-1: Hello Character_2
 @char Character.Character-2 tint:#E5BFFF
