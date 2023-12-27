@@ -169,6 +169,9 @@ MonoBehaviour:
     - name: QuestView
       pathPrefix: UI
       guid: 0a33bf4fb63931245ad1b1d388a00067
+    - name: MemoryBoardView
+      pathPrefix: UI
+      guid: 7c6882d6257b780408415ec00af8add3
   - Id: Scripts
     Resources:
     - name: NewScript
