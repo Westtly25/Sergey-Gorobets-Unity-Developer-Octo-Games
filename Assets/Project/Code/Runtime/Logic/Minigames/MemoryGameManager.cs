@@ -1,8 +1,9 @@
 ﻿using System;
 using Naninovel;
 using UnityEngine;
+using Assets.Project.Code.Runtime.Logic.Minigames.UI;
 
-namespace DTT.MinigameMemory
+namespace Assets.Project.Code.Runtime.Logic.Minigames
 {
     [InitializeAtRuntime]
     public class MemoryGameManager : IMemoryGameManager

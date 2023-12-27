@@ -1,8 +1,8 @@
 ﻿using Naninovel;
 using UnityEngine;
-using DTT.MinigameMemory;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Assets.Project.Code.Runtime.Logic.Minigames.Algorithms;
 
 namespace Assets.Project.Code.Runtime.Logic.Minigames.Configs
 {

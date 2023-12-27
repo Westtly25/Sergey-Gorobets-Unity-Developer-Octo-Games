@@ -4,7 +4,7 @@ using Naninovel.UI;
 using UnityEngine.UI;
 using System.Collections;
 
-namespace DTT.MinigameMemory 
+namespace Assets.Project.Code.Runtime.Logic.Minigames.UI
 {
     public class CardView : CustomUI
     {

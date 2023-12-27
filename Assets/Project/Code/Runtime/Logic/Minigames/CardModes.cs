@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DTT.MinigameMemory
+namespace Assets.Project.Code.Runtime.Logic.Minigames
 {
     public enum CardModes
     {

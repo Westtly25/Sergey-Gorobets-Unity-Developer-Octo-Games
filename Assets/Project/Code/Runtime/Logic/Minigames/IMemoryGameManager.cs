@@ -1,7 +1,7 @@
 ﻿using Naninovel;
 using System;
 
-namespace DTT.MinigameMemory
+namespace Assets.Project.Code.Runtime.Logic.Minigames
 {
     public interface IMemoryGameManager : IEngineService
     {

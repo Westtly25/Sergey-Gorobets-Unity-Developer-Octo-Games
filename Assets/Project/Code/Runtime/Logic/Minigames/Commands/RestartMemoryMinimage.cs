@@ -1,21 +1,23 @@
 ﻿using Naninovel;
 using UnityEngine;
-using DTT.MinigameMemory;
 
-[CommandAlias("restartMemoryMG")]
-public class RestartMemoryMinimage : Command, Command.ILocalizable
+namespace Assets.Project.Code.Runtime.Logic.Minigames.Commands
 {
-    public StringParameter Name;
-
-    public override async UniTask ExecuteAsync(AsyncToken asyncToken = default)
+    [CommandAlias("restartMemoryMG")]
+    public class RestartMemoryMinimage : Command, Command.ILocalizable
     {
-        MemoryGameManager memoryGameManager = Engine.GetService<MemoryGameManager>();
-        memoryGameManager.Restart();
+        public StringParameter Name;
+
+        public override async UniTask ExecuteAsync(AsyncToken asyncToken = default)
+        {
+            MemoryGameManager memoryGameManager = Engine.GetService<MemoryGameManager>();
+            memoryGameManager.Restart();
 
 #if UNITY_EDITOR
-        Debug.Log("Restart Memory Minimage Command");
+            Debug.Log("Restart Memory Minimage Command");
 #endif
 
-        await UniTask.CompletedTask;
+            await UniTask.CompletedTask;
+        }
     }
 }

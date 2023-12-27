@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DTT.MinigameMemory
+namespace Assets.Project.Code.Runtime.Logic.Minigames.Algorithms
 {
     /// <summary>
     /// Knut's implementation of a shuffle algorithm.

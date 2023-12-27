@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using Naninovel.UI;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Naninovel.UI;
+using Assets.Project.Code.Runtime.Logic.Minigames.Algorithms;
 
-namespace DTT.MinigameMemory
+namespace Assets.Project.Code.Runtime.Logic.Minigames.UI
 {
     public class BoardView : CustomUI
     {
@@ -38,8 +39,10 @@ namespace DTT.MinigameMemory
         public event Action CardsTurned;
         public event Action AllCardsMatched;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             foreach (CardView card in cardsOnBoard)
             {
                 card.Clicked += OnCardClicked;
@@ -48,8 +51,10 @@ namespace DTT.MinigameMemory
             }
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+
             foreach (CardView card in cardsOnBoard)
             {
                 card.Clicked -= OnCardClicked;

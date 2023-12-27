@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace DTT.MinigameMemory
+namespace Assets.Project.Code.Runtime.Logic.Minigames
 {
     public class MemoryGameResults
     {
