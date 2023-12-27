@@ -17,7 +17,7 @@ MonoBehaviour:
     Resources:
     - name: Dialogue
       pathPrefix: TextPrinters
-      guid: 1bc08ccd31adff6439e97161aa6e1d8b
+      guid: cfbe67c47fe6cb040aa9a0938ac72cc4
   - Id: TextPrinters/3fc30bdf-4615-4b86-8bcd-5757f25dbffb
     Resources:
     - name: Fullscreen
@@ -67,12 +67,12 @@ MonoBehaviour:
     Resources:
     - name: ButtonList
       pathPrefix: ChoiceHandlers
-      guid: 1f6aa29000e839c409e6a9c0704adc96
+      guid: 52b0ef56705049d4c8d86dbd7921113c
   - Id: ChoiceHandlers/fa54b92f-ae57-4c75-81db-a5d1c84c964b
     Resources:
     - name: ButtonArea
       pathPrefix: ChoiceHandlers
-      guid: 4fa6d62f894ae6e4698bfa8af59e7942
+      guid: 4b5128981e43eb6419fee84abdc502c9
   - Id: ChoiceHandlers/66739917-7cb7-4f09-85d3-b8f1963fe13d
     Resources:
     - name: ChatReply
@@ -159,13 +159,16 @@ MonoBehaviour:
       guid: 978e144c0c9b8024fa23bbf7ed6b129a
     - name: VariableInputUI
       pathPrefix: UI
-      guid: bb95f484e341dcd4391a572f22b7d067
+      guid: 7966c6573c41620419a40bac72c64da3
     - name: PauseUI
       pathPrefix: UI
       guid: 480f5db62ea305c46b89a86496d2a0c9
     - name: ToastUI
       pathPrefix: UI
       guid: dd85ce99288c2f8488447fa511b1c0d6
+    - name: QuestView
+      pathPrefix: UI
+      guid: 0a33bf4fb63931245ad1b1d388a00067
   - Id: Scripts
     Resources:
     - name: NewScript

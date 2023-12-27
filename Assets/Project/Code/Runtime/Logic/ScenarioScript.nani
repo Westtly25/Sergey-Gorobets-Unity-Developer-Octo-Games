@@ -1,0 +1,30 @@
+@bgm Background-music volume:0.1 loop:true fade:0.5
+
+@input PlayerName summary:"Choose your name."
+@stop
+
+@back Location-1
+@char Character.Character-1 tint:#E5BFFF
+Character.Character-1: Greetings, {PlayerName}!, I want yout to meet Character.Character-2.
+
+@back Location-2
+@char Character.Character-2 tint:#E5BFFF
+Character.Character-2: Greetings, {PlayerName}!, Pass my test and I will tell you where what you are looking for is.
+@back Location-3
+@activateQuest questName:lol
+@stop
+@back Location-2
+
+@back Location-1
+@char Character.Character-1 pos:20 tint:#E5BFFF
+Character.Character-1: {PlayerName}, I hope you make right decision!
+@char Character.Character-2 pos:80 tint:#E5BFFF
+Character.Character-2: {PlayerName}, I need this item!
+
+@choice "Give item to Character.Character-1"
+@choice "Give item to Character.Character-2"
+@choice "Keep it for yourself"
+@stop
+
+
+@stop

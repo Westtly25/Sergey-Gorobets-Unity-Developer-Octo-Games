@@ -1,15 +1,13 @@
 using Naninovel;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using static Naninovel.Command;
 
-[CommandAlias("PlayMemoryMG")]
-public class PlayMemoryMinimage : Command
+[CommandAlias("playMemoryMG")]
+public class PlayMemoryMinimage : Command, Command.ILocalizable
 {
+    public StringParameter Name;
+
     public override async UniTask ExecuteAsync(AsyncToken asyncToken = default)
     {
-        //throw new System.NotImplementedException();
 
         Debug.Log("PlayMemoryMinimage Command");
 
