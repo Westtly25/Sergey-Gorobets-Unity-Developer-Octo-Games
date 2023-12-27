@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Naninovel.UI;
 
 namespace DTT.MinigameMemory
 {
-    public class BoardView : MonoBehaviour
+    public class BoardView : CustomUI
     {
         [SerializeField]
         [Tooltip("GridLayoutGroup used to position the cards.")]

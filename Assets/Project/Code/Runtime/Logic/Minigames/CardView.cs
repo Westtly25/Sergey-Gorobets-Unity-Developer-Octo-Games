@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using Naninovel.UI;
 using UnityEngine.UI;
 using System.Collections;
 
 namespace DTT.MinigameMemory 
 {
-    public class CardView : MonoBehaviour
+    public class CardView : CustomUI
     {
         [SerializeField]
         private GameObject cardContent;
@@ -23,8 +24,19 @@ namespace DTT.MinigameMemory
         public event Action<CardView, CardView> GoodMatch;
         public event Action<CardView, CardView> BadMatch;
 
-        private void OnEnable() => cardButton.onClick.AddListener(OnClick);
-        private void OnDisable() => cardButton.onClick.RemoveListener(OnClick);
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            cardButton.onClick.AddListener(OnClick);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnEnable();
+
+            cardButton.onClick.RemoveListener(OnClick);
+        }
 
         public void Init(Sprite backSprite)
         {

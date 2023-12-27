@@ -70,7 +70,7 @@ namespace DTT.MinigameMemory
             if (isPaused)
                 Continue();
 
-            StartGame(settings);
+            StartGame();
         }
 
         public void Stop()
@@ -88,19 +88,18 @@ namespace DTT.MinigameMemory
 
         private void IncreaseTurnAmount() => amountOfTurns++;
 
-        public UniTask InitializeServiceAsync()
+        public async UniTask InitializeServiceAsync()
         {
-            throw new NotImplementedException();
+
+            await UniTask.CompletedTask;
         }
 
         public void ResetService()
         {
-            throw new NotImplementedException();
         }
 
         public void DestroyService()
         {
-            throw new NotImplementedException();
         }
     }
 }
