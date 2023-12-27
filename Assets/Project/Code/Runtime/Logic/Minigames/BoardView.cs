@@ -7,39 +7,39 @@ using System.Collections.ObjectModel;
 
 namespace DTT.MinigameMemory
 {
-    public class Board : MonoBehaviour
+    public class BoardView : MonoBehaviour
     {
         [SerializeField]
         [Tooltip("GridLayoutGroup used to position the cards.")]
-        private GridLayoutGroup _grid;
+        private GridLayoutGroup grid;
 
         [SerializeField]
         [Tooltip("Percentage of card size used for space between te cards.")]
-        private float _cardSpacing;
+        private float cardSpacing;
 
         [SerializeField]
-        private float _maximumCardSize = 0f;
+        private float maximumCardSize = 0f;
 
         [SerializeField]
         [Tooltip("Prefab used to create the cards shown on the board.")]
         private GameObject _cardPrefab;
 
-        private List<Sprite> _cardsInGame = new List<Sprite>();
-        private List<Card> _cardsOnBoard = new List<Card>();
-        private List<Card> _activeCards = new List<Card>();
-        private List<Card> _inactiveCards = new List<Card>();
-        private IShuffleAlgorithm _shuffleAlgorithm;
-        private int _maxCardsInRow;
-        private Card _firstSelectedCard;
-        private int _activateAtMatchesFoundPecentage;
-        private float _cardAnimationSpeed;
+        private IShuffleAlgorithm shuffleAlgorithm;
+        private List<Sprite> cardsInGame = new List<Sprite>();
+        private List<CardView> cardsOnBoard = new List<CardView>();
+        private List<CardView> activeCards = new List<CardView>();
+        private List<CardView> inactiveCards = new List<CardView>();
+        private int maxCardsInRow;
+        private CardView firstSelectedCard;
+        private int activateAtMatchesFoundPecentage;
+        private float cardAnimationSpeed;
 
         public event Action CardsTurned;
         public event Action AllCardsMatched;
 
         private void OnEnable()
         {
-            foreach (Card card in _cardsOnBoard)
+            foreach (CardView card in cardsOnBoard)
             {
                 card.Clicked += OnCardClicked;
                 card.GoodMatch += RemoveMatchedCards;
@@ -49,7 +49,7 @@ namespace DTT.MinigameMemory
 
         private void OnDisable()
         {
-            foreach (Card card in _cardsOnBoard)
+            foreach (CardView card in cardsOnBoard)
             {
                 card.Clicked -= OnCardClicked;
                 card.GoodMatch -= RemoveMatchedCards;
@@ -59,9 +59,9 @@ namespace DTT.MinigameMemory
 
         public void SetupGame(MemoryGameSettings settings)
         {
-            _shuffleAlgorithm = settings.ShuffleAlgorithm;
-            _activateAtMatchesFoundPecentage = settings.RefillAtFoundPercentage;
-            _cardAnimationSpeed = settings.CardAnimationSpeed;
+            shuffleAlgorithm = settings.ShuffleAlgorithm;
+            activateAtMatchesFoundPecentage = settings.RefillAtFoundPercentage;
+            cardAnimationSpeed = settings.CardAnimationSpeed;
 
             ClearCards();
 
@@ -85,15 +85,14 @@ namespace DTT.MinigameMemory
             {
                 index = Mathf.FloorToInt( Mathf.Repeat(i, CardSprites.Count));
 
-                _cardsInGame.Add(CardSprites[index]);
-                _cardsInGame.Add(CardSprites[index]);
+                cardsInGame.Add(CardSprites[index]);
+                cardsInGame.Add(CardSprites[index]);
             }
-
         }
 
         private void SetupGrid(int numberOfCards)
         {
-            Rect gridRectangle= ((RectTransform)_grid.transform).rect;
+            Rect gridRectangle= ((RectTransform)grid.transform).rect;
             float availableWidth = gridRectangle.width;
             float availableHeight = gridRectangle.height;
             bool isLandscapeOrientation = availableWidth > availableHeight;
@@ -123,26 +122,26 @@ namespace DTT.MinigameMemory
                 }
             }
 
-            _maxCardsInRow = Mathf.Max(occupiedRows, occupiedColumns);
+            maxCardsInRow = Mathf.Max(occupiedRows, occupiedColumns);
 
             float widthSize = availableWidth / occupiedColumns;
             float heightSize = availableHeight / occupiedRows;
-            widthSize -= widthSize * _cardSpacing;
-            heightSize -= heightSize * _cardSpacing;
+            widthSize -= widthSize * cardSpacing;
+            heightSize -= heightSize * cardSpacing;
             float minimumSize = Mathf.Min(widthSize, heightSize);
-            if (_maximumCardSize > 0f && minimumSize > _maximumCardSize)
-                minimumSize = _maximumCardSize;
+            if (maximumCardSize > 0f && minimumSize > maximumCardSize)
+                minimumSize = maximumCardSize;
 
-            _grid.cellSize = Vector2.one * minimumSize;
-            _grid.spacing = Vector2.one * minimumSize * _cardSpacing;
+            grid.cellSize = Vector2.one * minimumSize;
+            grid.spacing = Vector2.one * minimumSize * cardSpacing;
 
             GridLayoutGroup.Constraint gridConstraint =
                 isLandscapeOrientation ?
                 GridLayoutGroup.Constraint.FixedColumnCount :
                 GridLayoutGroup.Constraint.FixedRowCount;
 
-            _grid.constraint = gridConstraint;
-            _grid.constraintCount = _maxCardsInRow;
+            grid.constraint = gridConstraint;
+            grid.constraintCount = maxCardsInRow;
         }
 
         private void CreateBoardCards(int amountOfCardsOnBoard, ReadOnlyCollection<Sprite> backSprites)
@@ -150,19 +149,19 @@ namespace DTT.MinigameMemory
             int row;
             int cardbackIndex;
             
-            _cardsOnBoard.Clear();
-            _inactiveCards.Clear();
+            cardsOnBoard.Clear();
+            inactiveCards.Clear();
 
             for (int i = 0; i < amountOfCardsOnBoard; i++)
             {
-                Card card = Instantiate(_cardPrefab, _grid.transform).GetComponent<Card>();
+                CardView card = Instantiate(_cardPrefab, grid.transform).GetComponent<CardView>();
 
-                row = Mathf.FloorToInt(i / _maxCardsInRow);
-                cardbackIndex = ((i % _maxCardsInRow) + (row % backSprites.Count)) % backSprites.Count;
+                row = Mathf.FloorToInt(i / maxCardsInRow);
+                cardbackIndex = ((i % maxCardsInRow) + (row % backSprites.Count)) % backSprites.Count;
 
                 card.Init(backSprites[cardbackIndex]);
-                _cardsOnBoard.Add(card);
-                _inactiveCards.Add(card);
+                cardsOnBoard.Add(card);
+                inactiveCards.Add(card);
 
                 card.Clicked += OnCardClicked;
                 card.GoodMatch += RemoveMatchedCards;
@@ -173,62 +172,62 @@ namespace DTT.MinigameMemory
         private void ActivateCards()
         {
             List<Sprite> sprites = new List<Sprite>();
-            if (_inactiveCards.Count < _cardsInGame.Count)
-                sprites = _cardsInGame.GetRange(0, _inactiveCards.Count);
+            if (inactiveCards.Count < cardsInGame.Count)
+                sprites = cardsInGame.GetRange(0, inactiveCards.Count);
             else
-                sprites = _cardsInGame;
+                sprites = cardsInGame;
 
-            sprites = _shuffleAlgorithm.Shuffle(sprites);
+            sprites = shuffleAlgorithm.Shuffle(sprites);
 
             for (int i = 0; i < sprites.Count; i++)
             {
-                Card card = _inactiveCards[i];
+                CardView card = inactiveCards[i];
                 card.SetFrontsprite(sprites[i]);
-                _activeCards.Add(card);
+                activeCards.Add(card);
 
                 if (card.IsShowing)
-                    card.FlipCard(_cardAnimationSpeed);
+                    card.FlipCard(cardAnimationSpeed);
 
-                card.EnableCard(_cardAnimationSpeed);
+                card.EnableCard(cardAnimationSpeed);
             }
 
-            if (_inactiveCards.Count < _cardsInGame.Count)
-                _cardsInGame.RemoveRange(0, _inactiveCards.Count);
+            if (inactiveCards.Count < cardsInGame.Count)
+                cardsInGame.RemoveRange(0, inactiveCards.Count);
             else
-                _cardsInGame.Clear();
+                cardsInGame.Clear();
             
-            _inactiveCards.Clear();
+            inactiveCards.Clear();
         }
 
         private void AlignLastRowCards(ReadOnlyCollection<Sprite> backSprites) 
         {
-            int cardsInLastRow = _cardsOnBoard.Count % _maxCardsInRow;
-            int row = Mathf.FloorToInt(_cardsOnBoard.Count / _maxCardsInRow);
+            int cardsInLastRow = cardsOnBoard.Count % maxCardsInRow;
+            int row = Mathf.FloorToInt(cardsOnBoard.Count / maxCardsInRow);
 
-            if (cardsInLastRow == _maxCardsInRow)
+            if (cardsInLastRow == maxCardsInRow)
                 return;
 
-            int emptySlotsInLastRow = _maxCardsInRow - cardsInLastRow;
+            int emptySlotsInLastRow = maxCardsInRow - cardsInLastRow;
             float NumberOfCardWidths = emptySlotsInLastRow / 2f;
-            float distance = (NumberOfCardWidths * _grid.cellSize.x) + (NumberOfCardWidths * _grid.spacing.x);
+            float distance = (NumberOfCardWidths * grid.cellSize.x) + (NumberOfCardWidths * grid.spacing.x);
             int cardIndex;
             int cardbackIndex;
 
             for (int i = 0; i < cardsInLastRow; i++)
             {
-                cardIndex = row * _maxCardsInRow + i;
-                Vector3 newPosition = _cardsOnBoard[cardIndex].transform.localPosition + new Vector3(distance, 0, 0);
-                _cardsOnBoard[cardIndex].MoveToPosition(new Vector3(distance, 0, 0));
+                cardIndex = row * maxCardsInRow + i;
+                Vector3 newPosition = cardsOnBoard[cardIndex].transform.localPosition + new Vector3(distance, 0, 0);
+                cardsOnBoard[cardIndex].MoveToPosition(new Vector3(distance, 0, 0));
 
                 cardbackIndex = (i + (row + 1 % backSprites.Count)) % backSprites.Count;
-                _cardsOnBoard[cardIndex].Init( backSprites[cardbackIndex]);
+                cardsOnBoard[cardIndex].Init( backSprites[cardbackIndex]);
             }
         }
 
         private void ClearCards()
         {
-            _cardsOnBoard.ForEach(card => Destroy(card.gameObject));
-            foreach (Card card in _cardsOnBoard)
+            cardsOnBoard.ForEach(card => Destroy(card.gameObject));
+            foreach (CardView card in cardsOnBoard)
             {
                 card.Clicked -= OnCardClicked;
                 card.GoodMatch -= RemoveMatchedCards;
@@ -237,19 +236,19 @@ namespace DTT.MinigameMemory
                 Destroy(card.gameObject);
             }
 
-            _cardsInGame.Clear();
-            _cardsOnBoard.Clear();
-            _activeCards.Clear();
+            cardsInGame.Clear();
+            cardsOnBoard.Clear();
+            activeCards.Clear();
         }
 
-        private void OnCardClicked(Card clickedCard)
+        private void OnCardClicked(CardView clickedCard)
         {
-            clickedCard.FlipCard(_cardAnimationSpeed);
+            clickedCard.FlipCard(cardAnimationSpeed);
 
-            if (_firstSelectedCard == null)
+            if (firstSelectedCard == null)
             {
-                _firstSelectedCard = clickedCard;
-                _firstSelectedCard.canClick = false;
+                firstSelectedCard = clickedCard;
+                firstSelectedCard.canClick = false;
                 return;
             }
 
@@ -258,45 +257,45 @@ namespace DTT.MinigameMemory
             StartCoroutine(CompareDelay(clickedCard));
         }
 
-        private void RemoveMatchedCards(Card card1, Card card2)
+        private void RemoveMatchedCards(CardView card1, CardView card2)
         {
-            _activeCards.Remove(card1);
-            _inactiveCards.Add(card1);
-            card1.DisableCard(_cardAnimationSpeed);
+            activeCards.Remove(card1);
+            inactiveCards.Add(card1);
+            card1.DisableCard(cardAnimationSpeed);
 
-            _activeCards.Remove(card2);
-            _inactiveCards.Add(card2);
-            card2.DisableCard(_cardAnimationSpeed);
+            activeCards.Remove(card2);
+            inactiveCards.Add(card2);
+            card2.DisableCard(cardAnimationSpeed);
 
-            if (_cardsInGame.Count == 0 && _activeCards.Count == 0)
+            if (cardsInGame.Count == 0 && activeCards.Count == 0)
                 AllCardsMatched?.Invoke();
-            if (_inactiveCards.Count >= Mathf.FloorToInt(_cardsOnBoard.Count * (_activateAtMatchesFoundPecentage / 100f)))
+            if (inactiveCards.Count >= Mathf.FloorToInt(cardsOnBoard.Count * (activateAtMatchesFoundPecentage / 100f)))
                 ActivateCards();
             
             LockCards(false);
         }
 
-        private void FlipMatchedCards(Card card1, Card card2)
+        private void FlipMatchedCards(CardView card1, CardView card2)
         {
-            card1.FlipCard(_cardAnimationSpeed);
-            card2.FlipCard(_cardAnimationSpeed);
+            card1.FlipCard(cardAnimationSpeed);
+            card2.FlipCard(cardAnimationSpeed);
 
             LockCards(false);
         }
 
-        private void LockCards(bool lockCards) => _activeCards.ForEach(card => card.canClick = !lockCards);
+        private void LockCards(bool lockCards) => activeCards.ForEach(card => card.canClick = !lockCards);
 
-        private IEnumerator CompareDelay(Card clickedCard)
+        private IEnumerator CompareDelay(CardView clickedCard)
         {
-            float delay = _cardAnimationSpeed;
+            float delay = cardAnimationSpeed;
             if (delay == 0)
                 delay = 0.5f;
 
             yield return new WaitForSeconds(delay);
 
             CardsTurned?.Invoke();
-            _firstSelectedCard.CompairToCard(clickedCard);
-            _firstSelectedCard = null;
+            firstSelectedCard.CompairToCard(clickedCard);
+            firstSelectedCard = null;
         }
     }
 }

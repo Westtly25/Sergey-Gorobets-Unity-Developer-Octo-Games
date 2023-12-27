@@ -1,19 +1,19 @@
-using Naninovel;
+﻿using Naninovel;
 using UnityEngine;
 using DTT.MinigameMemory;
 
-[CommandAlias("playMemoryMG")]
-public class PlayMemoryMinimage : Command, Command.ILocalizable
+[CommandAlias("stopMemoryMG")]
+public class StopMemoryMinimage : Command, Command.ILocalizable
 {
     public StringParameter Name;
 
     public override async UniTask ExecuteAsync(AsyncToken asyncToken = default)
     {
         MemoryGameManager memoryGameManager = Engine.GetService<MemoryGameManager>();
-        memoryGameManager.StartGame();
+        memoryGameManager.Stop();
 
 #if UNITY_EDITOR
-        Debug.Log("Play Memory Minimage Command");
+        Debug.Log("Stop Memory Minimage Command");
 #endif
 
         await UniTask.CompletedTask;

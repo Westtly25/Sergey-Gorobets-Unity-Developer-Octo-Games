@@ -16,7 +16,7 @@ namespace DTT.MinigameMemory
         [Tooltip("Shuffle Algorithm")]
         public IShuffleAlgorithm ShuffleAlgorithm => GetAlgorithm();
 
-        [Tooltip("Card Mode")]
+        [Tooltip("CardView Mode")]
         public CardModes CardMode => _cardMode;
 
         [Tooltip("Mode to place cards on the board")]
@@ -64,7 +64,7 @@ namespace DTT.MinigameMemory
         [Tooltip("Amount of cards the game is played with.")]
         private int _amountOfCards = 10;
 
-        [Header("Board Sett ings")]
+        [Header("BoardView Sett ings")]
         [Space(10)]
 
         [SerializeField]
@@ -80,7 +80,7 @@ namespace DTT.MinigameMemory
         [Range(0, 100)]
         private int _refillAtFoundPercentage = 100;
 
-        [Header("Card Settings")]
+        [Header("CardView Settings")]
         [Space(10)]
 
         [SerializeField]

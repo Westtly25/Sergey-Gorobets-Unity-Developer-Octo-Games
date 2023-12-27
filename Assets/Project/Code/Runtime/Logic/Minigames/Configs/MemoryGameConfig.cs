@@ -96,8 +96,8 @@ namespace Assets.Project.Code.Runtime.Logic.Minigames.Configs
         [Tooltip("Amount of cards the game is played with.")]
         private int _amountOfCards = 10;
 
-        // Board Settings header.
-        [Header("Board Settings")]
+        // BoardView Settings header.
+        [Header("BoardView Settings")]
         [Space(10)]
 
         /// <summary>
@@ -122,8 +122,8 @@ namespace Assets.Project.Code.Runtime.Logic.Minigames.Configs
         [Range(0, 100)]
         private int _refillAtFoundPercentage = 100;
 
-        // Card Settings header.
-        [Header("Card Settings")]
+        // CardView Settings header.
+        [Header("CardView Settings")]
         [Space(10)]
 
         /// <summary>

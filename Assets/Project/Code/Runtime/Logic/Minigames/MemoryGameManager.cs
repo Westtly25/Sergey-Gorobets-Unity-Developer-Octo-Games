@@ -1,98 +1,106 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using Naninovel;
 using UnityEngine;
-using System;
-using DTT.MinigameBase;
-using DTT.MinigameBase.Timer;
-using DTT.MinigameBase.UI;
 
 namespace DTT.MinigameMemory
 {
-    public class MemoryGameManager : MonoBehaviour, IMinigame<MemoryGameSettings, MemoryGameResults>
-    {  
-        public bool IsPaused => _isPaused;
-        public bool IsGameActive => _isGameActive;
-        public TimeSpan Time => _timer.TimePassed;
+    [InitializeAtRuntime]
+    public class MemoryGameManager : IMemoryGameManager
+    {
+        [SerializeField]
+        private BoardView board;
 
         [SerializeField]
-        private Board _board;
+        private Timer timer;
 
-        [SerializeField]
-        private Timer _timer;
+        private bool isPaused;
+        private bool isGameActive;
+        private int amountOfTurns = 0;
 
-        private bool _isPaused;
-        private bool _isGameActive;
+        private MemoryGameSettings settings;
 
-        private MemoryGameSettings _settings;
-
-        private int _amountOfTurns = 0;
+        public bool IsPaused => isPaused;
+        public bool IsGameActive => isGameActive;
+        public TimeSpan Time { get; }
 
         public event Action Started;
         public event Action<bool> Paused;
         public event Action<MemoryGameResults> Finish;
 
-        private void Awake() => _timer = (_timer == null) ? this.gameObject.AddComponent<Timer>() : _timer;
-
         private void OnEnable()
         {
-            _board.CardsTurned += IncreaseTurnAmount;
-            _board.AllCardsMatched += ForceFinish;
+            board.CardsTurned += IncreaseTurnAmount;
+            board.AllCardsMatched += ForceFinish;
         }
 
         private void OnDisable()
         {
-            _board.CardsTurned -= IncreaseTurnAmount;
-            _board.AllCardsMatched -= ForceFinish;
+            board.CardsTurned -= IncreaseTurnAmount;
+            board.AllCardsMatched -= ForceFinish;
         }
 
-        public void StartGame(MemoryGameSettings settings)
+        public void StartGame()
         {
-            _settings = settings;
-            _amountOfTurns = 0;
-            _isPaused = false;
-            _isGameActive = true;
-            _timer.Begin();
+            //this.settings = settings;
+            amountOfTurns = 0;
+            isPaused = false;
+            isGameActive = true;
+            //timer.Begin();
 
-            _board.SetupGame(_settings);
+            board.SetupGame(this.settings);
             Started?.Invoke();
         }
 
         public void Pause()
         {
-            _isPaused = true;
-            _timer.Pause();
-            Paused?.Invoke(_isPaused);
+            isPaused = true;
+            //timer.Pause();
+            Paused?.Invoke(isPaused);
         }
 
         public void Continue()
         {
-            _isPaused = false;
-            _timer.Resume();
-            Paused?.Invoke(_isPaused);
+            isPaused = false;
+            //timer.Resume();
+            Paused?.Invoke(isPaused);
         }
 
-        
         public void Restart()
         {
-            if (_isPaused)
+            if (isPaused)
                 Continue();
 
-            StartGame(_settings);
+            StartGame(settings);
         }
 
         public void Stop()
         {
-            _isGameActive = false;
-            _timer.Stop();
-        }
-       
-        public void ForceFinish()
-        {
-            _timer.Stop();
-            _isGameActive = false;
-            Finish?.Invoke(new MemoryGameResults(_timer.TimePassed, _amountOfTurns));
+            isGameActive = false;
+            timer.Stop();
         }
 
-        private void IncreaseTurnAmount() => _amountOfTurns++;
+        public void ForceFinish()
+        {
+            timer.Stop();
+            isGameActive = false;
+           // Finish?.Invoke(new MemoryGameResults(timer.TimePassed, amountOfTurns));
+        }
+
+        private void IncreaseTurnAmount() => amountOfTurns++;
+
+        public UniTask InitializeServiceAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResetService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DestroyService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
